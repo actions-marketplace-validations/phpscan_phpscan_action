@@ -6,12 +6,21 @@ DEBUG=false
 
 function failedSignal() {
   ENDPOINT_FAILED="https://api.phpscan.com/api/check/ci_failed"
-  RESPONSE_FAILED=$(curl --silent -H 'content-type: application/json' -H "Authorization: Bearer $PHP_SCAN_AUTH_TOKEN" -G $ENDPOINT_FAILED)
+  RESPONSE_FAILED=$(curl --silent -H 'content-type: application/json' -H "Authorization: Bearer $PHPSCAN_AUTH_TOKEN" -G $ENDPOINT_FAILED)
 }
+
+#function successSignal() {
+#  ENDPOINT_SUCCESS="https://api.phpscan.com/api/check/ci_success/$1"
+#  CMD="curl --silent --location "$ENDPOINT_SUCCESS" --header "Authorization: Bearer $PHP_SCAN_AUTH_TOKEN"
+#  RESPONSE_SUCCESS=$(curl --silent --location "$ENDPOINT_SUCCESS" --header "Authorization: Bearer $PHP_SCAN_AUTH_TOKEN")
+#}
 
 function successSignal() {
   ENDPOINT_SUCCESS="https://api.phpscan.com/api/check/ci_success/$1"
-  RESPONSE_SUCCESS=$(curl --silent -H 'content-type: application/json' -H "Authorization: Bearer $PHP_SCAN_AUTH_TOKEN" -G $ENDPOINT_SUCCESS)
+  CMD="curl --silent --location \"$ENDPOINT_SUCCESS\" --header \"Authorization: Bearer $PHPSCAN_AUTH_TOKEN\""
+  echo "ci_success"
+  echo $CMD
+  eval "$CMD"
 }
 
 while getopts ":w:d:" o; do
